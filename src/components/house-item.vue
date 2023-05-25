@@ -1,5 +1,5 @@
 <template>
-  <div class="house-item" @click="handleItemClick" :class="{none:info.surplus_rooms <= 0}">
+  <div class="house-item" @click="handleItemClick" :class="{ none: info.surplus_rooms <= 0 }">
     <img class="none" v-if="info.surplus_rooms <= 0" src="../assets/img/none.png" alt />
     <img :src="info.cover" alt />
     <div class="info text-white">
@@ -9,27 +9,27 @@
           <div class="stars flex">
             <!-- <van-icon name="star-o" color="#fff" v-for="i in 5" :key="i" /> -->
           </div>
-          <div class="price">￥{{info.price / 100}}</div>
+          <div class="price">￥{{ info.price }}</div>
         </div>
-        <div class="house-intro text-ellipsis-2">{{info.fullname}}</div>
+        <div class="house-intro text-ellipsis-2">{{ info.fullname }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
+import { defineProps } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const props = defineProps({
   info: {
     type: Object,
     default: () => {},
   },
-});
+})
 const handleItemClick = (_) => {
-  router.push("/house/" + props.info.id);
-};
+  router.push('/house/' + props.info.id)
+}
 </script>
 
 <style lang="scss" scoped>

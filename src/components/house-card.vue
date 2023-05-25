@@ -2,48 +2,48 @@
   <div class="house-card" @click="handleClick">
     <div class="house-pic">
       <van-swipe @change="handleSwiperChange" class="swiper-row" :show-indicators="false">
-        <van-swipe-item v-for="(item) in info.house_images" :key="item.src">
+        <van-swipe-item v-for="item in info.house_images" :key="item.src">
           <img class="house-image" :src="item.src" alt />
         </van-swipe-item>
       </van-swipe>
-      <div class="dot">{{activeImageIndex + 1}}/{{info.house_images.length}}</div>
+      <div class="dot">{{ activeImageIndex + 1 }}/{{ info.house_images.length }}</div>
     </div>
     <div class="flex">
-      <div class="address">{{info.street}}</div>
+      <div class="address">{{ info.street }}</div>
       <div class="flex tag">2居·3床·1人</div>
     </div>
     <div class="title">
-      <span style="color:red" v-if="info.surplus_rooms <= 0">【已售罄】</span>
-      {{info.fullname}}
+      <span style="color: red" v-if="info.surplus_rooms <= 0">【已售罄】</span>
+      {{ info.fullname }}
     </div>
     <div class="flex">
-      <div class="price text-primary bold">￥{{(info.price / 100).toFixed(2)}}</div>
+      <div class="price text-primary bold">￥{{ info.price }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, defineProps } from "vue";
-import { useRouter, useRoute } from "vue-router";
-const router = useRouter();
+import { ref, reactive, defineProps } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
 const props = defineProps({
   info: {
     type: Object,
     default: () => {},
   },
-});
-const activeImageIndex = ref(0);
+})
+const activeImageIndex = ref(0)
 const images = reactive([
-  "https://pic.tujia.com/upload/landlordunit/day_220812/thumb/202208121504518657_1050_701.jpg",
-  "https://pic.tujia.com/upload/landlordunit/day_220812/thumb/202208121503097320_700_467.jpg",
-  "https://pic.tujia.com/upload/landlordunit/day_220812/thumb/202208121504517690_700_467.jpg",
-]);
+  'https://pic.tujia.com/upload/landlordunit/day_220812/thumb/202208121504518657_1050_701.jpg',
+  'https://pic.tujia.com/upload/landlordunit/day_220812/thumb/202208121503097320_700_467.jpg',
+  'https://pic.tujia.com/upload/landlordunit/day_220812/thumb/202208121504517690_700_467.jpg',
+])
 const handleSwiperChange = (index) => {
-  activeImageIndex.value = index;
-};
+  activeImageIndex.value = index
+}
 const handleClick = () => {
-  router.push("/house/" + props.info.id);
-};
+  router.push('/house/' + props.info.id)
+}
 </script>
 
 <style lang="scss" scoped>

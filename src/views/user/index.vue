@@ -4,17 +4,13 @@
     <div class="padding">
       <div class="margin-t top">
         <div class="flex card" @click="handleItemClick('userModify')">
-          <img
-            class="avatar"
-            src="https://himg.bdimg.com/sys/portraitn/item/public.1.18dc4392.5FmNQDVxOeRFCYwzRUkBDg"
-            alt
-          />
+          <img class="avatar" src="../../assets/img/avatar.png" alt />
           <div class="info flex flex-column">
-            <div class="username text-primary flex">{{userInfo.username}}</div>
+            <div class="username text-primary flex">{{ userInfo.username }}</div>
             <div class="flex tag">
               <van-tag type="primary">
                 <van-icon name="user-o" />
-                <span style="margin-left:4px">已实名</span>
+                <span style="margin-left: 4px">已实名</span>
               </van-tag>
             </div>
           </div>
@@ -46,29 +42,29 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
-import { ref } from "vue";
-import { useStore } from "vuex";
-const store = useStore();
-const router = useRouter();
-const loading = ref(false);
-const userInfo = store.getters["user/userInfo"];
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
+const router = useRouter()
+const loading = ref(false)
+const userInfo = store.getters['user/userInfo']
 const handleItemClick = (name) => {
-  router.push({ name });
-};
+  router.push({ name })
+}
 const handleLogout = (_) => {
-  if (loading.value) return;
-  loading.value = true;
+  if (loading.value) return
+  loading.value = true
   store
-    .dispatch("user/logout")
+    .dispatch('user/logout')
     .then((res) => {
-      router.push(`login`);
-      loading.value = false;
+      router.push(`login`)
+      loading.value = false
     })
     .catch((err) => {
-      loading.value = false;
-    });
-};
+      loading.value = false
+    })
+}
 </script>
 
 <style lang="scss" scoped>

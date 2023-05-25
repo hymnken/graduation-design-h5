@@ -2,8 +2,8 @@
   <div>
     <div class="order-item" @click="handleClick">
       <div class="order-base flex flex-between">
-        <div class="title text-ellipsis">{{info.house.fullname}}</div>
-        <div class="status text-primary bold">{{statusText}}</div>
+        <div class="title text-ellipsis">{{ info.house.fullname }}</div>
+        <div class="status text-primary bold">{{ statusText }}</div>
       </div>
       <div class="order-image">
         <img :src="info.house.cover" alt />
@@ -27,100 +27,96 @@
               </div>
             </template>
           </div>
-          <div class="b-right" v-if="info.status<=2">
+          <div class="b-right" v-if="info.status <= 2">
             <p class="name">定金</p>
-            <span class="price">￥{{(info.earnest_money / 100).toFixed(2)}}</span>
+            <span class="price">￥{{ info.earnest_money }}</span>
           </div>
-          <div class="b-right" v-if="info.status==3 || info.status ==4">
+          <div class="b-right" v-if="info.status == 3 || info.status == 4">
             <p class="name">尾款</p>
-            <span class="price">￥{{(info.surplus_money / 100).toFixed(2)}}</span>
+            <span class="price">￥{{ info.surplus_money }}</span>
           </div>
-          <div class="b-right" v-if="info.status==4">
+          <div class="b-right" v-if="info.status == 4">
             <p class="name">总金额</p>
-            <span class="price">￥{{(info.total_money / 100).toFixed(2)}}</span>
+            <span class="price">￥{{ info.total_money }}</span>
           </div>
         </div>
       </div>
       <div class="flex flex-between tips">
         <div class="left flex" v-if="info.status == 1 && showTimeStr">
           <van-icon name="clock-o" />
-          <span class="text-primary">{{expireTimeStr}}</span>
+          <span class="text-primary">{{ expireTimeStr }}</span>
           后订单自动取消
         </div>
         <div v-else class="left"></div>
         <div class="flex">
           <van-button size="small" @click.stop="handleContact">联系房东</van-button>
-          <van-button
-            size="small"
-            class="payment"
-            type="primary"
-            v-if="info.status==1||info.status==2"
-          >{{ info.status == 1 ? '去支付' : '支付尾款'}}</van-button>
+          <van-button size="small" class="payment" type="primary" v-if="info.status == 1 || info.status == 2">{{
+            info.status == 1 ? '去支付' : '支付尾款'
+          }}</van-button>
         </div>
       </div>
     </div>
     <van-popup @click.stop v-model:show="show" position="bottom" :style="{ padding: '64px' }">
-      <p>地址：{{info.house.street}}</p>
-      <p>联系电话：{{info.house.mobile}}</p>
+      <p>地址：{{ info.house.street }}</p>
+      <p>联系电话：{{ info.house.mobile }}</p>
     </van-popup>
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed, onMounted, ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
-const router = useRouter();
+import { defineProps, computed, onMounted, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
 const props = defineProps({
   info: {
     type: Object,
     default: () => {},
   },
-});
-const show = ref(false);
-const showTimeStr = ref(true);
+})
+const show = ref(false)
+const showTimeStr = ref(true)
 const statusText = computed(() => {
   const code = {
-    0: "已过期",
-    1: "未支付",
-    2: "待付尾款",
-    3: "待入住",
-    4: "入住中",
-    5: "已完成",
-  };
-  return code[props.info.status];
-});
-const expireTimeStr = ref("");
-let timer = 0;
+    0: '已过期',
+    1: '未支付',
+    2: '待付尾款',
+    3: '待入住',
+    4: '入住中',
+    5: '已完成',
+  }
+  return code[props.info.status]
+})
+const expireTimeStr = ref('')
+let timer = 0
 onMounted(() => {
   if (props.info.status == 1) {
     timer = setInterval(() => {
-      let nowTime = new Date().getTime();
-      let offsetTime =
-        new Date(props.info.create_at).getTime() + 20 * 60 * 1000 - nowTime;
+      let nowTime = new Date().getTime()
+      let offsetTime = new Date(props.info.create_at).getTime() + 20 * 60 * 1000 - nowTime
 
-      let second = Math.floor(offsetTime / 1000);
+      let second = Math.floor(offsetTime / 1000)
       if (second <= 1) {
         // queryOrderDetail();
-        showTimeStr.value = false;
-        clearInterval(timer);
+        showTimeStr.value = false
+        clearInterval(timer)
       }
-      const min = Math.floor(second / 60);
-      const sec = second - min * 60;
-      expireTimeStr.value = min + "分" + sec + "秒";
-    }, 1000);
+      const min = Math.floor(second / 60)
+      const sec = second - min * 60
+      expireTimeStr.value = min + '分' + sec + '秒'
+    }, 1000)
   }
-});
+})
 const handleClick = () => {
   router.push({
-    name: "orderDetail",
+    name: 'orderDetail',
     params: {
       id: props.info.id,
     },
-  });
-};
+  })
+}
 const handleContact = (e) => {
-  show.value = true;
-};
+  show.value = true
+}
 </script>
 
 <style lang="scss" scoped>
@@ -203,7 +199,7 @@ const handleContact = (e) => {
     justify-content: center;
     align-items: center;
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 10px;
       left: -25px;
